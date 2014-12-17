@@ -126,6 +126,6 @@ class amount_to_letter():
             mont=mont-tpas[i]*m
             m=m/1000
         return tpas
-    def lettrer_amount(self):
+    def get_lettrer_amount(self):
         return self.lettre
     
