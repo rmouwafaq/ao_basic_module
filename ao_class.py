@@ -1,3 +1,4 @@
+import os
 from math import floor
 
 
@@ -129,3 +130,21 @@ class amount_to_letter():
     def get_lettrer_amount(self):
         return self.lettre
     
+#===============================================================================
+# 
+#===============================================================================
+class base_report():
+    def __init__(self,report_name,module_name,json_file_name,template_file_name):
+        self.attributes = {}
+        self.attributes['path_json_file'] = os.getcwd()+ '/'+"openerp/addons/report_def_store/static/reports/"+module_name+"/"+report_name+"/JSON/"+json_file_name   
+        self.attributes['html_template'] =  None
+        self.attributes['path_template_source'] =  os.getcwd()+ '/'+"openerp/addons/payroll_reporting/templates/"
+        self.attributes['file_template'] =  template_file_name
+        self.attributes['path_name_output'] = os.getcwd()+ '/'+"openerp/addons/report_def_store/static/reports/"+module_name+"/"+report_name+"/HTML/"
+        
+    def get_report_attributes(self):
+        return self.attributes
+        
+        
+        
+        
