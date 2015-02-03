@@ -32,9 +32,9 @@ class amount_to_letter():
             traduc[4]=traduc[0]+self.cent_devise
         traduc[4]=traduc[1]+self.devise+traduc[4]
         if(tdec[2]==1):
-            traduc[4]="MILLE "+traduc[4]
+            traduc[4]=" MILLE "+traduc[4]
         if(tdec[2]>1):
-            traduc[4]=traduc[2]+"MILLE "+traduc[4]
+            traduc[4]=traduc[2]+" MILLE "+traduc[4]
         if(traduc[4].strip()==""):
             de="DE "
         else:
