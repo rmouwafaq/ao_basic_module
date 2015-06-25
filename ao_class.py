@@ -1,5 +1,6 @@
 import os
 from math import floor
+from openerp.addons.ao_basic_module.ao_register import CD_STATIC_REPORTS,CD_ODOO_ADDONS
 
 
 class amount_to_letter():
@@ -15,12 +16,11 @@ class amount_to_letter():
         self.tcondv=["ONZE","DOUZE","TREIZE","QUATORZE","QUINZE","SEIZE","DIX SEPT","DIX HUIT","DIX NEUF"]
         self.tcond=["DIX","VINGT","TRENTE","QUARANTE","CINQUANTE","SOIXANTE","SOIXANTE DIX","QUATRE VINGT","QUATRE VINGT DIX"]
         
-        
-        
         if(mont<=0):
             return None
         self.mont_traduit()
         return None
+    
     def mont_traduit(self):
         tdec=self.mont_decompose(self.mont)
         traduc=[" "," "," "," "," "]
@@ -28,13 +28,17 @@ class amount_to_letter():
         for i in xrange(4):
             k=self.mont_convertion(tdec[i])
             traduc[i]=self.chch
+
         if(tdec[0]>=1 ):
             traduc[4]=traduc[0]+self.cent_devise
         traduc[4]=traduc[1]+self.devise+traduc[4]
+        
         if(tdec[2]==1):
             traduc[4]=" MILLE "+traduc[4]
+        
         if(tdec[2]>1):
             traduc[4]=traduc[2]+" MILLE "+traduc[4]
+        
         if(traduc[4].strip()==""):
             de="DE "
         else:
@@ -84,6 +88,7 @@ class amount_to_letter():
         else:
             self.chch=self.chch+self.tcondv[self.nbu-1]
         return None
+    
     def montconv2(self):
         if(self.nbd!=7 and self.nbd!=9):
             self.montconv3()
@@ -96,6 +101,7 @@ class amount_to_letter():
         if(self.nbu!=1):
             self.chch=self.chch+self.tcond[self.nbd-2]+" "+self.tcondv[self.nbu-1]+" "
         return None
+    
     def montconv3(self):
         if(self.nbd==0):
             if(self.nbu!=0):
@@ -122,11 +128,11 @@ class amount_to_letter():
         m=1000000
         
         for i in xrange(3,0,-1):
-            
             tpas[i]=int(floor(mont/m))
             mont=mont-tpas[i]*m
             m=m/1000
         return tpas
+
     def get_lettrer_amount(self):
         return self.lettre
     
@@ -136,11 +142,11 @@ class amount_to_letter():
 class base_report():
     def __init__(self,report_name,module_name,json_file_name,template_file_name):
         self.attributes = {}
-        self.attributes['path_json_file'] = os.getcwd()+ '/'+"openerp/addons/report_def_store/static/reports/"+module_name+"/"+report_name+"/JSON/"+json_file_name   
+        self.attributes['path_json_file'] = CD_STATIC_REPORTS +module_name+"/"+report_name+"/JSON/"+json_file_name   
         self.attributes['html_template'] =  None
-        self.attributes['path_template_source'] =  os.getcwd()+ '/'+"openerp/addons/payroll_reporting/templates/"
-        self.attributes['file_template'] =  template_file_name
-        self.attributes['path_name_output'] = os.getcwd()+ '/'+"openerp/addons/report_def_store/static/reports/"+module_name+"/"+report_name+"/HTML/"
+        self.attributes['path_template_source'] =  CD_ODOO_ADDONS + module_name + "/templates/"
+        self.attributes['file_template'] =  template_file_name + '.html'
+        self.attributes['path_name_output'] = CD_STATIC_REPORTS + module_name+"/"+report_name+"/HTML/"
         
     def get_report_attributes(self):
         return self.attributes
