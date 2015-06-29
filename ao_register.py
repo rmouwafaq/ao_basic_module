@@ -7,6 +7,7 @@ import os
 CD_ODOO_ADDONS     = os.getcwd()+ '/'+"openerp/addons/" 
 CD_STATIC_REPORTS  = CD_ODOO_ADDONS + "report_def/static/reports/"
 
+
 #===============================================================================
 # ao_modules_folder_name as a dictionnary:
 #    key : is the module name agilorg
