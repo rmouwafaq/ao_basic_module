@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
+import os
 
 #===============================================================================
 # Global function 
@@ -11,7 +12,7 @@ def remove_any(strsource,pattern ):
     i  = 0
     while i<= len(pattern)-1:
         strsource = strsource.replace(pattern[i],"")
-        i = i + 1
+        i += 1
     return strsource
 
 def stringtofile(strfile,filename):
@@ -103,4 +104,12 @@ def end_file(file_name,str_end):
     if not file_name.endswith(str_end):
         file_name = file_name + str_end
     return file_name
+
+def create_folder(path_target):
+    try:
+        os.mkdir(path_target)
+        return True
+    except OSError:
+        pass
+        return True
   

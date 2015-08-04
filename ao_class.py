@@ -151,6 +151,53 @@ class base_report():
     def get_report_attributes(self):
         return self.attributes
         
+
+class model_key(object):
+    
+    def __init__(self,key_name,desc):
+        self.vars = key_name.split(',')
+        self.key_name  = key_name
+        self.var_value = {}
+        self.var_type  = {}
         
+        for var in self.vars:
+            if desc.has_key(var):
+                self.var_type[var] = desc[var]['type']
+                
         
+    def _key(self):
+        return self.key_name
+    
+    def get_key_value(self,obj_value):
+        type_var = True 
+        self.var_value = {}
+        if type(obj_value) is dict:
+            type_var = False
+        
+        for var in self.vars:
+            self.var_value[var] =  ''
+            if type_var :
+                if self.var_type[var] == 'many2one':
+                    record = getattr(obj_value, var)
+                    self.var_value[var] = str(getattr(record, 'name'))
+                else:
+                    self.var_value[var] = str(getattr(obj_value, var))
+            else:
+                if obj_value.has_key(var):
+                    if self.var_type[var] == 'many2one':
+                        self.var_value[var] = obj_value[var][1]
+                    else:
+                        self.var_value[var] = obj_value[var]
+        return self.var_value 
+    
+    
+    def val_to_string(self,obj_value,sep = '_'):
+        self.var_value = self.get_key_value(obj_value)
+        value = ''
+        sep_var   = ''
+        for var in self.vars:
+            if self.var_value[var] != '':  
+                value = value + sep_var + str(self.var_value[var]).replace(' ',sep)
+                sep_var = sep
+        return value
         
