@@ -112,4 +112,18 @@ def create_folder(path_target):
     except OSError:
         pass
         return True
-  
+
+def string_to_value(value,type = 'int'):
+    n_value = 0
+    if value:
+        try: 
+           if type == 'float':
+               n_value = float(value)
+           elif type == 'int':
+               n_value = int(value)
+           else:
+               n_value = double(value)
+        except ValueError:
+           n_value = 0
+    return n_value
+ 
