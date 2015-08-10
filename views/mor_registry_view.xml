@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+	<data>
+        
+        <!-- Parametrer les options des actions -->
+        
+	    <record id="view_ao_registry_form" model="ir.ui.view">
+            <field name="name">ao.registry.form</field>
+            <field name="model">ao.registry</field>
+            <field name="arch" type="xml">
+                <form string="Registres" version="7.0">
+                	<sheet>
+		            	<group col="2">
+			               <field name = "name"/>
+			               <field name = "parent_id"/>
+			               <field name = "value"/>
+			               <field name = "type"/>
+			               <field name = "default"/>
+			               <field name = "description"/>
+			            </group>
+			            <notebook colspan="2">
+						    <page string="Sous registres">
+	                        	<field name="child_ids" />
+	                        </page>
+	                    </notebook>
+		            </sheet> 
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_ao_registry_tree" model="ir.ui.view">
+            <field name="name">ao.registry.tree</field>
+            <field name="model">ao.registry</field>
+            <field name="arch" type="xml">
+                <tree string="Registres" >
+                   <field name = "name"/>
+	               <field name = "value"/>
+	               <field name = "default"/>
+                </tree>
+            </field> 
+        </record>
+        
+        <!-- M.O.R. Partner regroupement par parent et profil -->
+		
+		<record id="view_ao_registry_search" model="ir.ui.view">
+			<field name="name">ao.registry.search</field>
+			<field name="model">ao.registry</field>
+			<field name="arch" type="xml">
+				<search string="Arbre des registres">
+					<separator/>
+					<field name="parent_id" />
+					<field name="type" select="1" />
+					<group expand="0" string="Group By...">
+						<filter name="group_regsitry_parent_id" string="Arbre" domain="[]" context="{'group_by':'parent_id'}" />
+						<filter name="group_regsitry_category_id" string="Catégorie" domain="[]" context="{'group_by':'category_id'}" />
+						<filter name="group_regsitry_partner_type" string="Type" domain="[]" context="{'group_by':'type'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+		
+                  
+	</data>
+</openerp>
