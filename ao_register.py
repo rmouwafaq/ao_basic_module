@@ -4,7 +4,7 @@ import os
 
 #====================================================================
 # Directories  
-CD_ODOO_ADDONS     = os.getcwd()+ '/'+"openerp/addons/" 
+CD_ODOO_ADDONS     = os.getcwd()+ '/'+"addons/" 
 CD_STATIC_REPORTS  = CD_ODOO_ADDONS + "report_def/static/reports/"
 
 
