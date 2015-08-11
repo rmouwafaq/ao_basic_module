@@ -64,8 +64,8 @@ class ao_registry(osv.osv):
                                            ('boolean','Boolean')],'Type', required=True),
                 'value'         : fields.char('Valeur', 128),
                 'default'       : fields.char('Valeur par défaut', 128, required=True),
-                'parent_id'     : fields.many2one('mor.registry', 'Registre parent', select=True),
-                'child_ids'     : fields.one2many('mor.registry', 'parent_id', 'Sous registres'),
+                'parent_id'     : fields.many2one('ao.registry', 'Registre parent', select=True),
+                'child_ids'     : fields.one2many('ao.registry', 'parent_id', 'Sous registres'),
                 # Pour gérer l'arborescence parent-fils
                 'parent_left'   :   fields.integer('Left parent', select=True),
                 'parent_right'  :   fields.integer('Right parent', select=True),
