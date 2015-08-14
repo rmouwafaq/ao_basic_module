@@ -6,6 +6,7 @@ import os
 # Directories  
 CD_ODOO_ADDONS     = os.getcwd()+ '/'+"addons/" 
 CD_STATIC_REPORTS  = CD_ODOO_ADDONS + "report_def/static/reports/"
+CD_AO_FIN_REPORT   = CD_ODOO_ADDONS + "account_financial_report/"
 
 
 #===============================================================================
