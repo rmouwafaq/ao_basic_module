@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import collections
-
+import csv
 
 
 #===============================================================================
@@ -15,3 +15,5 @@ def money_count(montant,list_monnaie=()):
             nb_monaie[piece]=int(montant/piece)
             montant = montant - (nb_monaie[piece] * piece)
         return nb_monaie
+
+
