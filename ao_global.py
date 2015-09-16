@@ -102,8 +102,9 @@ def list_to_dict(list_elements):
 
 def end_file(file_name,str_end):
     if not file_name.endswith(str_end):
-        file_name = file_name + str_end
-    return file_name
+        return file_name + str_end
+    else:
+        return file_name
 
 def create_folder(path_target):
     try:
