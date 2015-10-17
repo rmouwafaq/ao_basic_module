@@ -128,4 +128,9 @@ def string_to_value(value,type = 'int'):
            n_value = 0
     return n_value
  
- 
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
