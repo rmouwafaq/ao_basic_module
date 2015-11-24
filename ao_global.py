@@ -117,6 +117,8 @@ def create_folder(path_target):
 def string_to_value(value,type = 'int'):
     n_value = 0
     if value:
+        if isinstance(value,str):
+            value = ''.join(value.split()).replace(',',".").replace('%','')
         try: 
            if type == 'float':
                n_value = float(value)
@@ -126,11 +128,16 @@ def string_to_value(value,type = 'int'):
                n_value = double(value)
         except ValueError:
            n_value = 0
+
     return n_value
  
 def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
+    if s:
+        if isinstance(s,str):
+            s = ''.join(s.split()).replace(',',".").replace('%','') 
+        try:
+            float(s)
+            return True
+        except ValueError:
+            return False
+    return False
