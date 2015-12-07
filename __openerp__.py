@@ -31,10 +31,9 @@ Use oe_base to import some functions and variable in projects or modules Agilorg
     'summary': 'Global functions and variables ',
     'sequence': 0,
     'depends': [],
-    'data': [],
+    'data': ['views/registry_view.xml',
+             'menu/menu_config_action.xml'],
     'demo': [],
-    'css': [],
-    'images': [],
     'auto_install': False,
     'installable': True,
 }

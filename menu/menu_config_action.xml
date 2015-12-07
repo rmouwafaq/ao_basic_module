@@ -3,27 +3,27 @@
 	<data>
 		<!-- ====================== Actions ========================-->
 		<!--  Paramétrages des variables de registre -->
-		<record model="ir.actions.act_window" id = "action_mor_registre_struct">
+		<record model="ir.actions.act_window" id = "action_registre_struct">
 			<field name="name">Structure Registres</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">ao.registry</field>
 			<field name="domain">[('parent_id','=',False)]</field>
-			<field name="search_view_id" ref="view_mor_registry_search" />
+			<field name="search_view_id" ref="view_ao_registry_search" />
 			<field name="view_type">tree</field>			
 		</record>
 		<!--  Paramétrages des variables de registre -->
-		<record model="ir.actions.act_window" id = "action_mor_registre">
+		<record model="ir.actions.act_window" id = "action_registre">
 			<field name="name">Registres</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">ao.registry</field>
-			<field name="search_view_id" ref="view_mor_registry_search" />
+			<field name="search_view_id" ref="view_ao_registry_search" />
 			<field name="context">{"search_default_group_regsitry_parent_id":1}</field> 
 		</record>
 		
 		<!-- ============================ Menus ======================= -->
-		<!--<menuitem name ="Registre" id ="menu_mor_registry_root" parent="menu_mor_admin" sequence="3000" />
-			<menuitem name ="Structure Registre" id ="menu_mor_registre_struct" parent="menu_mor_registry_root" sequence="10" action="action_mor_registre_struct" />
-			<menuitem name ="Variables registre" id ="menu_mor_registre" parent="menu_mor_registry_root" sequence="20" action="action_mor_registre" />-->
+		<menuitem name ="Registre" id ="menu_registry_root" parent="base.menu_custom" />
+			<menuitem name ="Structure Registre" id ="menu_mor_registre_struct" parent="menu_registry_root" sequence="10" action="action_registre_struct" />
+			<menuitem name ="Variables registre" id ="menu_mor_registre" parent="menu_registry_root" sequence="20" action="action_registre" />
 			
 	</data>
 </openerp>
