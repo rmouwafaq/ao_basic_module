@@ -117,7 +117,7 @@ def create_folder(path_target):
 def string_to_value(value,type = 'int'):
     n_value = 0
     if value:
-        if isinstance(value,str):
+        if isinstance(value, str) or isinstance(value, unicode):
             value = ''.join(value.split()).replace(',',".").replace('%','')
         try: 
            if type == 'float':
