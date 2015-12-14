@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding/__init__.py=utf-8
 encoding/__openerp__.py=utf-8
 encoding/ao_csv.py=utf8
+encoding/ao_declare.py=utf-8
 encoding/ao_function.py=utf-8
 encoding/ao_global.py=utf-8
 encoding/ao_register.py=utf-8
