@@ -106,6 +106,8 @@ class ao_registry(osv.osv):
             return int(valeur)
         elif type_value == 'float':
             return float(valeur)
+        elif type_value == 'char' or type_value == 'text':
+            return str(valeur)
         else:
             return valeur 
         
