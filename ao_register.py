@@ -73,11 +73,41 @@ class ao_registry(osv.osv):
             }
     _sql_constraints = [('name', 'UNIQUE (name)', 'Nom du registre dupliqué. Vous ne pouvez pas définir deux registres ayant le même nom !')]
     
+    
+    def get_set_param(self, cr, uid, name, default=None, value=None, type='char', module=None, context=None):
+        
+        id_reg = self.search(cr,uid , [('name','=',name)],context=context)
+        if not id_reg:
+            ##create param
+            
+            #get module_id
+            module_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'base', ('module_'+ module))[1]
+            vals = {'name'      :   name,
+                    'type'      :   type,
+                    'value'     :   value,
+                    'default'   :   default,  #required
+                    'module_id' :   module_id
+                    }
+            
+            param_id = self.create(cr,uid,vals,context=context)
+            return self.get_param(cr,uid,name)
+        
+        else:
+            
+            if default or value:
+                ## set param
+                return self.set_param(cr,uid,name,default=default,value=value,type=type,context=context)
+            else:
+            
+                ## get param
+                return self.get_param(cr,uid,name)
+    
+    
     def get_param(self,cr,uid,name,context=None):
         
         id_reg = self.search(cr,uid , [('name','=',name)])
         if not id_reg:
-            print 'parameter not found !!!'
+            raise osv.except_osv(_('Error!'),_("No parameter with name [%S] found on the system !!!." % (name,)))
         
         else:
             param = self.browse(cr,uid,id_reg)
@@ -87,13 +117,21 @@ class ao_registry(osv.osv):
                 value = param.default
             return self.cast_value(param.type,value)
         
-    def set_param(self,cr,uid,name,valeur,context=None):
+    def set_param(self,cr,uid,name,default=None,value=None,type='char',context=None):
         
         id_reg = self.search(cr,uid , [('name','=',name)])
         if not id_reg:
             print 'parameter not found !!!'
         else:
-            self.write(cr,uid,id_reg,{'value':valeur})
+            vals={'type'      :   type,}
+            
+            if value:
+                vals['value']=value
+                
+            if default:
+                vals['default']=default
+                
+            self.write(cr,uid,id_reg,vals)
             param = self.browse(cr,uid,id_reg)
             if param.value:
                 value = param.value
