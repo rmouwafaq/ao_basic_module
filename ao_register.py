@@ -74,16 +74,20 @@ class ao_registry(osv.osv):
     _sql_constraints = [('name', 'UNIQUE (name)', 'Nom du registre dupliqué. Vous ne pouvez pas définir deux registres ayant le même nom !')]
     
     
-    def get_set_param(self, cr, uid, name, default=None, value=None, type='char', module=None, context=None):
+    def get_set_param(self, cr, uid, name, default=None, value=None, type=None, module=None, context=None):
         
         id_reg = self.search(cr,uid , [('name','=',name)],context=context)
         if not id_reg:
             ##create param
             
             #get module_id
+            if not module :
+                module = 'base'
+                
             module_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'base', ('module_'+ module))[1]
+            
             vals = {'name'      :   name,
-                    'type'      :   type,
+                    'type'      :   type or 'char',
                     'value'     :   value,
                     'default'   :   default,  #required
                     'module_id' :   module_id
@@ -117,13 +121,15 @@ class ao_registry(osv.osv):
                 value = param.default
             return self.cast_value(param.type,value)
         
-    def set_param(self,cr,uid,name,default=None,value=None,type='char',context=None):
+    def set_param(self,cr,uid,name,default=None,value=None,type=None,context=None):
         
         id_reg = self.search(cr,uid , [('name','=',name)])
+        vals={}
         if not id_reg:
             print 'parameter not found !!!'
         else:
-            vals={'type'      :   type,}
+            if type:
+                vals['type']=type
             
             if value:
                 vals['value']=value
@@ -146,6 +152,11 @@ class ao_registry(osv.osv):
             return float(valeur)
         elif type_value == 'char' or type_value == 'text':
             return str(valeur)
+        elif type_value == 'boolean':
+            if valeur == '1':
+                return True
+            else :
+                return False       
         else:
             return valeur 
         
