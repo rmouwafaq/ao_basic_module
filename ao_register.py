@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import datetime
 from openerp.modules import module
 
 #====================================================================
@@ -148,12 +149,18 @@ class ao_registry(osv.osv):
     def cast_value(self,type_value,valeur):     
         if type_value == 'int':
             return int(valeur)
+        
         elif type_value == 'float':
             return float(valeur)
+        
         elif type_value == 'char' or type_value == 'text':
             return str(valeur)
+        
+        elif type_value == 'datetime' :
+            return datetime.datetime.strptime(valeur, "%Y-%m-%d %H:%M:%S")
+        
         elif type_value == 'boolean':
-            if valeur == '1':
+            if valeur == '1' or valeur.lower() == 'true' :
                 return True
             else :
                 return False       
