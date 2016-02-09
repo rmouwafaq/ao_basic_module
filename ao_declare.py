@@ -14,6 +14,8 @@ FIELD_TYPE_SELECTION = [('String','String'),
                         ('datetime','Datetime'),
                         ('Time','Time'),
                         ('time','Time'),
+                        ('boolean','Boolean'),
+                        ('Boolean','Boolean'),
                         ]
 
 FIELD_STYLE_SELECTION = [('edit','Edit Texte'),
