@@ -2,6 +2,7 @@
 import time
 import os
 
+
 import sys
 reload(sys)  # Reload does the trick!
 sys.setdefaultencoding('UTF8')
@@ -145,3 +146,58 @@ def is_number(s):
         except ValueError:
             return False
     return False
+
+def ao_format(pos,dec,sep):
+        pp = pos + dec 
+        if len(sep)>0:
+            return '{:'+ sep + '>' + str(pp) + ',.'+str(dec)+'f}'
+        else: 
+            return '{:>' + str(pp) + ',.'+str(dec)+'f}'
+
+
+REF_FORMAT_TD = {
+              'E2':  '{:>2.0f}',
+              'E3':  '{:>3.0f}',
+              'E4':  '{:>4.0f}',
+              'E5':  '{:>5.0f}',
+              'E6':  '{:>6.0f}',
+              'E7':  '{:>7.0f}',
+              'E8':  '{:>8.0f}',
+              'E9':  '{:>9,.0f}',
+              'F10': '{:>10,.2f}',
+              'F11': '{:>11,.2f}',
+              'F12': '{:>12,.2f}',
+              'F13': '{:>13,.2f}',
+              'F14': '{:>14,.2f}',
+              'F15': '{:>15,.2f}',
+              }
+
+REF_FORMAT = {
+              'E2':  REF_FORMAT_TD,
+              'E3':  ao_format(3,0,''),
+              'E4':  ao_format(4,0,' '),
+              'E5':  ao_format(5,0,' '),
+              'E6':  ao_format(6,0,' '),
+              'E7':  ao_format(7,0,' '),
+              'E8':  ao_format(8,0,' '),
+              'E9':  ao_format(9,0,' '),
+              'F10': ao_format(8,2,' '),
+              'F11': ao_format(8,2,' '),
+              'F12': ao_format(9,2,' '),
+              'F13': ao_format(10,2,' '),
+              'F14': ao_format(11,2,' '),
+              'F15': ao_format(12,2,' '),
+              }
+
+def ao_decimal_format(for_type,value,sep=True,ref_form = REF_FORMAT_TD):
+    if ref_form.has_key(for_type):
+        str_form = ref_form[for_type]
+    else:
+        str_form = REF_FORMAT_TD['F13']
+    fmt = mystr.format(value)
+    if sep:
+        fmt = fmt.replace(","," ")
+    else:
+        fmt = fmt.replace(",","")
+    return fmt
+
