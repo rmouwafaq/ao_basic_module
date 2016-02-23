@@ -53,3 +53,4 @@ CELL_TYPE_SELECTION =[('text','Texte'),
                       ('select','Select'),
                       ('dropdown','Dropdown'),
                       ]
+

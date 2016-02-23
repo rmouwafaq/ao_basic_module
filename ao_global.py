@@ -156,6 +156,9 @@ def ao_format(pos,dec,sep):
 
 
 REF_FORMAT_TD = {
+              'text' : '{}',
+              '' : '{}',  
+              'DJMA': '{}',  
               'E2':  '{:>2.0f}',
               'E3':  '{:>3.0f}',
               'E4':  '{:>4.0f}',
@@ -172,32 +175,38 @@ REF_FORMAT_TD = {
               'F15': '{:>15,.2f}',
               }
 
-REF_FORMAT = {
-              'E2':  REF_FORMAT_TD,
-              'E3':  ao_format(3,0,''),
-              'E4':  ao_format(4,0,' '),
-              'E5':  ao_format(5,0,' '),
-              'E6':  ao_format(6,0,' '),
-              'E7':  ao_format(7,0,' '),
-              'E8':  ao_format(8,0,' '),
-              'E9':  ao_format(9,0,' '),
-              'F10': ao_format(8,2,' '),
-              'F11': ao_format(8,2,' '),
-              'F12': ao_format(9,2,' '),
-              'F13': ao_format(10,2,' '),
-              'F14': ao_format(11,2,' '),
-              'F15': ao_format(12,2,' '),
-              }
+FORMAT_FIN_REPORT = {
+                      'E2':  {'format':'E2','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'E3':  {'format':'E3','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'E4':  {'format':'E4','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'E5':  {'format':'E5','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'E6':  {'format':'E6','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'E7':  {'format':'E7','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'E8':  {'format':'E2','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'E9':  {'format':'E2','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'F10': {'format':'E2','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'F11': {'format':'E2','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'F12': {'format':'E2','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'F13': {'format':'E2','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'F14': {'format':'E2','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      'F15': {'format':'E2','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
+                      }
 
-def ao_decimal_format(for_type,value,sep=True,ref_form = REF_FORMAT_TD):
-    if ref_form.has_key(for_type):
-        str_form = ref_form[for_type]
+def ao_decimal_format(value,attributes):
+    if attributes['ref_format'].has_key(attributes['format']):
+        str_form = ref_form[attributes['format']]
     else:
-        str_form = REF_FORMAT_TD['F13']
+        str_form = attributes['ref_format']['F13']
     fmt = mystr.format(value)
-    if sep:
+    if attributes['sep']:
         fmt = fmt.replace(","," ")
     else:
         fmt = fmt.replace(",","")
+    if not attributes['align']:
+        fmt = fmt.replace(" ","")
+    
+    if value == 0:
+        if attributes['disp_zero']:
+            fmt = ''
     return fmt
 
