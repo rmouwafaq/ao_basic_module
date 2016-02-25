@@ -192,6 +192,17 @@ FORMAT_FIN_REPORT = {
                       'F15': {'format':'E2','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
                       }
 
+
+def ao_format_value(cell_format,amount, ao_format=True):
+    value = REF_FORMAT_TD[cell_format].format(amount)
+    if not ao_format:
+       value = value.replace(",","").replace(" ","")
+    else:
+        value = value.replace(","," ")
+        if amount == 0:
+            value = ''
+    return value
+
 def ao_decimal_format(value,attributes):
     if attributes['ref_format'].has_key(attributes['format']):
         str_form = ref_form[attributes['format']]
