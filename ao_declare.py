@@ -29,7 +29,9 @@ NUMERIC_SELECTION = ['numeric','total','Double','Integer']
 
 CELL_FORMAT_SELECTION = [('',' '),
                         ('text','Texte'),
-                        ('DJMA','Date - jj/mm/aaaa'),
+                        ('DJMA','Date - obsolete'),
+                        ('JMA','Date - jj/mm/aaaa'),
+                        ('AMJ','Date - aaaa-mm-jj'),
                         ('E2', 'Entier (2)'),
                         ('E3', 'Entier (3)'),
                         ('E4', 'Entier (4)'),

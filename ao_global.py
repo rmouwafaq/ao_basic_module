@@ -12,13 +12,20 @@ sys.setdefaultencoding('UTF8')
 # 
 #===============================================================================
 
+
+def str_mid(vstr,startpos=0,endpos=0):
+    if endpos == 0 :
+        endpos = len(vstr)-1
+    return vstr[startpos:endpos]
+
 def remove_any(strsource,pattern ):
     #---- remove any char in pattern
-    i  = 0
-    while i<= len(pattern)-1:
-        strsource = strsource.replace(pattern[i],"")
-        i += 1
+    if strsource:
+        for char in strsource:
+            if char in pattern:
+                strsource = strsource.replace(char,'')
     return strsource
+    
 
 def stringtofile(strfile,filename):
     ofi = open(filename, 'w')
@@ -158,7 +165,9 @@ def ao_format(pos,dec,sep):
 REF_FORMAT_TD = {
               'text' : '{}',
               '' : '{}',  
-              'DJMA': '{}',  
+              'DJMA': '{}',
+              'JMA': '{}',
+              'AMJ': '{}', 
               'E2':  '{:>2.0f}',
               'E3':  '{:>3.0f}',
               'E4':  '{:>4.0f}',
@@ -174,6 +183,7 @@ REF_FORMAT_TD = {
               'F14': '{:>14,.2f}',
               'F15': '{:>15,.2f}',
               }
+
 
 FORMAT_FIN_REPORT = {
                       'E2':  {'format':'E2','sep':True,'disp_zero':True,'align':True,'ref_format':REF_FORMAT_TD},
@@ -221,3 +231,17 @@ def ao_decimal_format(value,attributes):
             fmt = ''
     return fmt
 
+
+def ao_date_format(udate,date_format):
+    
+    strdate  = remove_any(udate,"./-")
+    if strdate:
+        if date_format == 'JMA':
+            return strdate[:2] + "-" + strdate[2:4] + "-" + strdate[-4:]
+        elif date_format == 'AMJ':
+            return strdate[-4:] + '-' + strdate[2:4] + "-" + strdate[:2]
+        else:
+            print date_format,'inconnu'
+            return udate   
+    else:
+        return udate
