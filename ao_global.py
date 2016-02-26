@@ -135,7 +135,7 @@ def string_to_value(value,type = 'int'):
            if type == 'float':
                n_value = float(value)
            elif type == 'int':
-               n_value = int(value)
+               n_value = int(float(value))
            else:
                n_value = double(value)
         except ValueError:
@@ -241,7 +241,7 @@ def ao_date_format(udate,date_format):
         elif date_format == 'AMJ':
             return strdate[-4:] + '-' + strdate[2:4] + "-" + strdate[:2]
         else:
-            print date_format,'inconnu'
+            print date_format,' format date inconnu'
             return udate   
     else:
         return udate
