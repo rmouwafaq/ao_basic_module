@@ -1,7 +1,130 @@
 # -*- coding: utf8 -*-
-import csv
+import base64
+import csv,codecs,cStringIO
 import datetime
+from StringIO import StringIO
 
+def csv_to_list(data_file,source_encoding = "utf_8"):
+    
+    # to detect delimiter on the fly        
+    sniffer = csv.Sniffer()
+    dialect = sniffer.sniff(data_file, delimiters=',;')
+    reader  = UnicodeReader(StringIO(data_file), dialect=dialect,encoding=source_encoding)
+ 
+    items    = {}
+    row_model= {}
+
+    if reader.reader:
+        col_fields = reader.header
+        col_max    = len(col_fields)
+        for numcol in range(0,col_max-1):
+            row_model[numcol] = ''
+    
+        row_number = 0
+        for row in reader.reader:
+            numcol= 0 
+            for col in row:
+                if numcol<col_max: 
+                    value = row[numcol].strip()
+                    
+                    if items.has_key(row_number):
+                        row_value = items[row_number]
+                    else:
+                        row_value = row_model.copy()
+                    
+                    row_value[numcol] = value
+                    items[row_number] = row_value
+                numcol +=1 
+            row_number +=1
+        
+    return list(items.values())
+
+class UTF8Recoder:
+    """
+    Iterator that reads an encoded stream and reencodes the input to UTF-8
+    """
+    def __init__(self, f, source_encoding):
+        self.source_encoding = source_encoding
+        self.target_encoding = 'utf_8'
+        self.state = False
+        try:
+            self.reader = codecs.getreader(self.source_encoding)(f)
+            self.state = True
+        
+        except UnicodeEncodeError:
+            self.state = False
+                
+        except UnicodeDecodeError:
+            self.state = False
+            
+    def __iter__(self):
+        return self
+
+    def next2(self):
+        return self.reader.next().encode(self.target_encoding)
+
+    def next(self):
+        try:
+            conv = self.reader.next().encode(self.target_encoding)
+        except UnicodeEncodeError:
+            conv = 'Encoding Error'   
+        return conv 
+
+class UnicodeReader:
+    """
+    A CSV reader which will iterate over lines in the CSV file "f",
+    which is encoded in the given encoding.
+    """
+    def __init__(self, f, dialect, encoding, **kwds):
+        self.source_encoding = encoding
+        self.target_encoding = 'utf_8'
+        f = UTF8Recoder(f, self.source_encoding)
+        if f.state:
+            self.reader = csv.reader(f, dialect=dialect, **kwds)
+            self.header = self.next()
+        else:
+            self.reader = False
+            
+    def next(self,format_dic = False):
+        row = self.reader.next()
+        vals = [unicode(s, self.target_encoding) for s in row]
+        if format_dic:
+            return dict((self.header[x], vals[x]) for x in range(len(self.header))) 
+        else:
+            return vals
+     
+class UnicodeWriter:
+    """
+    A CSV writer which will write rows to CSV file "f",
+    which is encoded in the given encoding.
+    """
+    def __init__(self, f, fieldnames, dialect=csv.excel, encoding="utf-8", **kwds):
+        # Redirect output to a queue
+        self.fieldnames = fieldnames
+        self.queue = cStringIO.StringIO()
+        self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
+        self.stream = f
+        self.encoder = codecs.getincrementalencoder(encoding)()
+
+    def writeheader(self):
+        self.writer.writerow(self.fieldnames)
+
+    def writerow(self, row):
+        self.writer.writerow([row[x].encode("utf-8") for x in self.fieldnames])
+        # Fetch UTF-8 output from the queue ...
+        data = self.queue.getvalue()
+        data = data.decode("utf-8")
+        # ... and reencode it into the target encoding
+        data = self.encoder.encode(data)
+        # write to the target stream
+        self.stream.write(data)
+        # empty queue
+        self.queue.truncate(0)
+
+    def writerows(self, rows):
+        for row in rows:
+            self.writerow(row)
+ 
 
 class migrate_luncher(object):    
 
@@ -91,8 +214,6 @@ class migrate_luncher(object):
         finally:
             my_file.close()
             
-migrate_luncher()
-
 class fs_csv_import(object):
     
     def __init__(self,source_path,target_path,sep=';'):
@@ -259,4 +380,5 @@ class ao_csv_file(object):
     def print_values(self):
         for row in self.values.items():
             print row 
-      
+    
+
