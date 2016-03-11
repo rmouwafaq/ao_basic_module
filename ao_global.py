@@ -232,14 +232,14 @@ def ao_decimal_format(value,attributes):
     return fmt
 
 
-def ao_date_format(udate,date_format):
+def ao_date_format(udate,date_format,sep_char='/'):
     strdate  = remove_any(udate,"./-")
     if strdate:
         if len(strdate)==8:
             if date_format == 'JMA':
-                return strdate[:2] + "-" + strdate[2:4] + "-" + strdate[-4:]
+                return strdate[:2] + sep_char + strdate[2:4] + sep_char + strdate[-4:]
             elif date_format == 'AMJ':
-                return strdate[-4:] + '-' + strdate[2:4] + "-" + strdate[:2]
+                return strdate[-4:] + sep_char + strdate[2:4] + sep_char + strdate[:2]
             else:
                 print date_format,' format date inconnu'
     return udate
