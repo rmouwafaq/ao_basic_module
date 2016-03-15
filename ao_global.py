@@ -239,6 +239,7 @@ def ao_date_format(udate,date_format,sep_char='/'):
             if date_format == 'JMA':
                 return strdate[:2] + sep_char + strdate[2:4] + sep_char + strdate[-4:]
             elif date_format == 'AMJ':
+                sep_char = '-'
                 return strdate[-4:] + sep_char + strdate[2:4] + sep_char + strdate[:2]
             else:
                 print date_format,' format date inconnu'
