@@ -93,7 +93,7 @@ class ao_registry(osv.osv):
                     'default'   :   default,  #required
                     'module_id' :   module_id
                     }
-            
+            print vals 
             param_id = self.create(cr,uid,vals,context=context)
             return self.get_param(cr,uid,name)
         
