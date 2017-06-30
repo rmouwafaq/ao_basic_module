@@ -8,7 +8,7 @@ from openerp.modules import module
 CD_ODOO_ADDONS     = os.getcwd()+ '/'+"addons/" 
 CD_REPORT_DEF      = module.get_module_path('report_def')
 CD_STATIC_REPORTS  = CD_REPORT_DEF + "/static/reports/"
-CD_AO_FIN_REPORT   = module.get_module_path('account_financial_report')+ "/"
+CD_AO_FIN_REPORT   = str(module.get_module_path('account_financial_report'))+ "/"
 
 
 #===============================================================================
